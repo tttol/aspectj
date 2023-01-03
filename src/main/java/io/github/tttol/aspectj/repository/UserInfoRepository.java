@@ -13,7 +13,7 @@ import java.util.Optional;
 public class UserInfoRepository {
     private final UserInfoMapper userInfoMapper;
 
-    public Optional<UserInfo> selecetByPrimaryKey(final String id) {
+    public Optional<UserInfo> selectByPrimaryKey(final String id) {
         return userInfoMapper.selectByPrimaryKey(id);
     }
 

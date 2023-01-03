@@ -59,7 +59,7 @@ public class UserInfoRepositoryTest {
         void selectByPrimaryKeyTest() {
             // dbsetupで登録済みのためget()する
             final var expected = userInfoList.stream().filter(e -> StringUtils.equals(e.getId(), ID_1)).findFirst().get();
-            final var actual = userInfoRepository.selecetByPrimaryKey(ID_1);
+            final var actual = userInfoRepository.selectByPrimaryKey(ID_1);
             assertThat(actual).isPresent().get().usingRecursiveComparison().isEqualTo(expected);
             ;
         }
@@ -96,7 +96,7 @@ public class UserInfoRepositoryTest {
             target.setName("Taro");
             target.setEmail("taro@example.com");
             userInfoRepository.insert(target);
-            final var actual = userInfoRepository.selecetByPrimaryKey(id);
+            final var actual = userInfoRepository.selectByPrimaryKey(id);
 
             assertThat(actual).isPresent().get().usingRecursiveComparison().isEqualTo(target);
         }
