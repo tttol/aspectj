@@ -6,17 +6,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class UserInfoRepository {
     private final UserInfoMapper userInfoMapper;
 
+    public Optional<UserInfo> selecetByPrimaryKey(final String id) {
+        return userInfoMapper.selectByPrimaryKey(id);
+    }
+
     public List<UserInfo> selectAll() {
-        return this.userInfoMapper.select(c -> c);
+        return userInfoMapper.select(c -> c);
     }
 
     public int insert(final UserInfo userInfo) {
-        return this.userInfoMapper.insert(userInfo);
+        return userInfoMapper.insert(userInfo);
     }
 }
