@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/aspectj_demo
+    username: postgres
+    password: postgres
+logging:
+  level:
+    root: INFO
+    io:
+      github:
+        tttol:
+          aspectj: DEBUG
+          zaxxer:
+            hikari:
+              HikariDataSource: WARN

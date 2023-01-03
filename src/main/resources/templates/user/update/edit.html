@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>user list</title>
+    </head>
+    <body>
+        <form th:action="@{/userinfo/execute}" method="post" th:object="${userInfoForm}">
+            <div>
+                name <input type="text" th:field="*{name}"/>
+            </div>
+            <div>
+                email <input type="text" th:field="*{email}"/>
+            </div>
+            <div>
+                <input type="submit" value="send">
+            </div>
+        </form>
+    </body>
+</html>

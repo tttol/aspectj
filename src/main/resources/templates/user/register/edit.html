@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>user list</title>
+    </head>
+    <body>
+        <form th:action="@{/userinfo/register/execute}" method="post" th:object="${userInfoForm}">
+            <div th:replace="~{fragment/formInput :: formInput}"></div>
+        </form>
+    </body>
+</html>

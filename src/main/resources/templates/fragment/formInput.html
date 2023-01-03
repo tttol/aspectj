@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <body>
+        <th:block th:fragment="formInput">
+            <div>
+                name <input type="text" th:field="*{name}"/>
+            </div>
+            <div>
+                email <input type="text" th:field="*{email}"/>
+            </div>
+            <div>
+                <input type="submit" value="send">
+            </div>
+        </th:block>
+    </body>
+</html>
