@@ -6,7 +6,6 @@ import io.github.tttol.aspectj.repository.UserInfoRepository;
 import org.apache.ibatis.executor.BatchResult;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mybatis.dynamic.sql.delete.render.DeleteStatementProvider;
 import org.mybatis.dynamic.sql.insert.render.GeneralInsertStatementProvider;
@@ -29,7 +28,7 @@ public class RepositoryAspectTest {
     @Test
     @DisplayName("insertメソッド実行時に作成/更新者・作成/更新日時がセットされていること")
     void testInsert() {
-        try (final MockedStatic<LocalDateTime> localDateTime = Mockito.mockStatic(LocalDateTime.class)) {
+        try (final var localDateTime = Mockito.mockStatic(LocalDateTime.class)) {
             localDateTime.when(LocalDateTime::now).thenReturn(NOW);
             final var userInfoRepository = new UserInfoRepository(new UserInfoMapper() {
                 @Override
