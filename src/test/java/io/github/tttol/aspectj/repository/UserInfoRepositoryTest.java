@@ -2,6 +2,7 @@ package io.github.tttol.aspectj.repository;
 
 import com.google.common.hash.Hashing;
 import com.ninja_squad.dbsetup.DbSetup;
+import com.ninja_squad.dbsetup.DbSetupTracker;
 import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DriverManagerDestination;
 import io.github.tttol.aspectj.mbgenerate.entity.UserInfo;
@@ -35,6 +36,8 @@ public class UserInfoRepositoryTest {
     private static final String ID_2 = Hashing.sha256().hashString("2", StandardCharsets.UTF_8).toString();
     private final List<UserInfo> userInfoList = new ArrayList<>();
 
+    private static final DbSetupTracker dbSetupTracker = new DbSetupTracker();
+
     @Autowired
     private UserInfoRepository userInfoRepository;
 
@@ -47,7 +50,7 @@ public class UserInfoRepositoryTest {
                 .build();
         final var dbSetup = new DbSetup(new DriverManagerDestination(datasourceUrl, datasourceUserName, datasourcePassword),
                 sequenceOf(truncate("user_info"), insertOperation));
-        dbSetup.launch();
+        dbSetupTracker.launchIfNecessary(dbSetup);
 
         userInfoList.addAll(userInfoRepository.selectAll());
     }
@@ -57,6 +60,7 @@ public class UserInfoRepositoryTest {
         @Test
         @DisplayName("primary keyをもとにユーザー情報を取得できること")
         void selectByPrimaryKeyTest() {
+            dbSetupTracker.skipNextLaunch();
             // dbsetupで登録済みのためget()する
             final var expected = userInfoList.stream().filter(e -> StringUtils.equals(e.getId(), ID_1)).findFirst().get();
             final var actual = userInfoRepository.selectByPrimaryKey(ID_1);
@@ -70,6 +74,7 @@ public class UserInfoRepositoryTest {
         @Test
         @DisplayName("全件取得ができること")
         void selectAllTest() {
+            dbSetupTracker.skipNextLaunch();
             final var user1 = new UserInfo();
             user1.setId(ID_1);
             user1.setName("Tom");
