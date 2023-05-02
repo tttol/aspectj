@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:latest
-    restart: always
+    restart: no
     ports:
       - "5432:5432"
     volumes:
@@ -12,7 +12,7 @@ services:
       POSTGRES_DB: aspectj_demo
   test-db:
     image: postgres:latest
-    restart: always
+    restart: no
     ports:
       - "5433:5432"
     volumes:
