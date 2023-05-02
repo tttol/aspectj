@@ -10,6 +10,7 @@ logging:
       github:
         tttol:
           aspectj: DEBUG
-          zaxxer:
-            hikari:
-              HikariDataSource: WARN
+    com:
+      zaxxer:
+        hikari:
+          HikariDataSource: WARN

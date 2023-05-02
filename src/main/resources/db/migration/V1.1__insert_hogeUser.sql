@@ -1,0 +1,1 @@
+insert into user_info values('1', 'hoge', 'hoge@example.com', 'hogeUser', null, 'hogeUser', null);
