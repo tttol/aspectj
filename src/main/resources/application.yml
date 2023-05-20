@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/aspectj_demo
-    username: postgres
-    password: postgres
+    url: # application-{env}.ymlで設定
+    username: # application-{env}.ymlで設定
+    password: # application-{env}.ymlで設定
 logging:
   level:
     root: INFO
