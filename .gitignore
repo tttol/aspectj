@@ -38,3 +38,5 @@ out/
 
 ### postgres ###
 postgres/data/
+
+application-local.yml
