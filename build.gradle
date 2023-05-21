@@ -1,11 +1,18 @@
+buildscript {
+    dependencies {
+        classpath 'org.flywaydb:flyway-gradle-plugin:9.17.0'
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.1.0'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.flywaydb.flyway" version "9.17.0"
 }
 
 group = 'io.github.tttol'
-version = '0.0.1-SNAPSHOT'
+version = '2.0.0'
 sourceCompatibility = '17'
 
 configurations {
@@ -17,6 +24,10 @@ configurations {
 repositories {
     mavenCentral()
     maven { url 'https://repo.spring.io/milestone' }
+}
+
+ext {
+    set('testcontainersVersion', "1.18.1")
 }
 
 dependencies {
@@ -37,8 +48,19 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.1'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+flyway {
+    url = 'jdbc:postgresql://localhost:5432/'
+    user = 'postgres'
+    password = 'postgres'
+    schemas = ['aspectj_demo', 'aspectj_demo_test']
+    baselineOnMigrate = true
+//    ignoreMigrationPatterns = ['versioned:*']
 }

@@ -7,12 +7,13 @@ import com.ninja_squad.dbsetup.Operations;
 import com.ninja_squad.dbsetup.destination.DriverManagerDestination;
 import io.github.tttol.aspectj.mbgenerate.entity.UserInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -23,28 +24,13 @@ import static com.ninja_squad.dbsetup.Operations.truncate;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class UserInfoRepositoryTest {
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:latest")
-            .withDatabaseName("aspectj_demo_test")
-            .withUsername("postgres")
-            .withPassword("postgres");
-
-    @BeforeAll
-    static void beforeAll() {
-        postgres.start();
-    }
-
-    @AfterAll
-    static void afterAll() {
-        postgres.stop();
-    }
-
-    @DynamicPropertySource
-    static void configureProperties(final DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", () -> "jdbc:postgresql://localhost:5432/aspectj_demo_test");
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
+public class UserInfoRepositoryTest_old {
+    @Value("${spring.datasource.url}")
+    private String datasourceUrl;
+    @Value("${spring.datasource.username}")
+    private String datasourceUserName;
+    @Value("${spring.datasource.password}")
+    private String datasourcePassword;
 
     private static final String ID_1 = Hashing.sha256().hashString("1", StandardCharsets.UTF_8).toString();
     private static final String ID_2 = Hashing.sha256().hashString("2", StandardCharsets.UTF_8).toString();
@@ -62,20 +48,12 @@ public class UserInfoRepositoryTest {
                 .values(ID_1, "Tom", "tom@example.com")
                 .values(ID_2, "John", "john@example.com")
                 .build();
-        final var dbSetup = new DbSetup(new DriverManagerDestination(
-                "jdbc:postgresql://localhost:5432/aspectj_demo_test",
-                "postgres",
-                "postgres"),
+        final var dbSetup = new DbSetup(new DriverManagerDestination(datasourceUrl, datasourceUserName, datasourcePassword),
                 sequenceOf(truncate("user_info"), insertOperation));
         dbSetupTracker.launchIfNecessary(dbSetup);
 
         userInfoList.addAll(userInfoRepository.selectAll());
     }
-
-//    @Test
-//    void validateJdbcUrl() {
-//        assertThat(postgres.getJdbcUrl()).isEqualTo("jdbc:postgresql://localhost:5432/aspectj_demo_test");
-//    }
 
     @Nested
     class SelectByPrimaryKey {

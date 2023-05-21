@@ -1,6 +1,3 @@
---CREATE DATABASE aspectj_demo;
---\c aspectj_demo;
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -24,6 +21,5 @@ CREATE TABLE public.user_info (
     updated_at timestamp without time zone
 );
 
-ALTER TABLE public.user_info OWNER TO postgres;
 ALTER TABLE ONLY public.user_info
     ADD CONSTRAINT user_info_pkey PRIMARY KEY (id);
